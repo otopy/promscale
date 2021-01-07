@@ -5,6 +5,9 @@
 [![Code Climate](https://api.codeclimate.com/v1/badges/c6b16c0bbcb0690c9c71/maintainability)](https://codeclimate.com/github/timescale/promscale/maintainability)
 [![GoDoc](https://godoc.org/github.com/timescale/promscale?status.svg)](https://pkg.go.dev/github.com/timescale/promscale)
 
+https://hub.docker.com/r/otopy/promscale
+
+
 Promscale is an open-source long-term store for Prometheus data designed for
 analytics. It is a **horizontally scalable**, **highly-compressed**, and
 **operationally mature** platform for Prometheus data that offers the
