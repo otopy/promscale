@@ -1,0 +1,4 @@
+name: promscale
+version: 0.1.2
+apiVersion: v2
+description: Promscale Connector deployment

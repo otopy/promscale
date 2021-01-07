@@ -1,0 +1,37 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "connector.fullname" . | trunc 41 }}-drop-chunk
+  labels:
+    app: {{ template "connector.fullname" . }}
+    chart: {{ template "connector.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  schedule: {{ .Values.dropChunk.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Chart.Name }}-drop-chunk
+            image: postgres:12-alpine
+            args:
+            - psql
+            - -c
+            - CALL prom_api.execute_maintenance();
+            env:
+              - name: PGPORT
+                value: {{ .Values.connection.port | quote }}
+              - name: PGUSER
+                value: {{ .Values.connection.user }}
+              - name: PGPASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ tpl .Values.connection.password.secretTemplate . }}
+                    key: {{ .Values.connection.user }}
+              - name: PGHOST
+                value: {{ tpl .Values.connection.host.nameTemplate . }}
+              - name:  PGDATABASE
+                value: {{ .Values.connection.dbName }}
+          restartPolicy: OnFailure
